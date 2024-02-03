@@ -42,7 +42,8 @@ class KImage {
           (BuildContext context, Object exception, StackTrace? stackTrace) {
             // Return a dummy image widget when an error occurs
             return Image.asset(
-              KImagePath.demoImage, // Replace with the path to your dummy image
+              KImagePath
+                  .defaultImage, // Replace with the path to your dummy image
               width: width,
               height: height,
               fit: fit,
@@ -89,7 +90,8 @@ class KImage {
           (BuildContext context, Object exception, StackTrace? stackTrace) {
             // Return a dummy image widget when an error occurs
             return Image.asset(
-              KImagePath.demoImage, // Replace with the path to your dummy image
+              KImagePath
+                  .defaultImage, // Replace with the path to your dummy image
               width: width,
               height: height,
               fit: fit,
@@ -173,7 +175,7 @@ class KImage {
       if (!imagePath.startsWith('assets')) {
         if (imagePath == "") {
           return fromDecorationAssetImage(
-              imagePath: KImagePath.demoImage, fit: BoxFit.cover);
+              imagePath: KImagePath.defaultImage, fit: BoxFit.cover);
         } else {
           return fromDecorationNetworkImage(
             imagePath: imagePath,
@@ -188,7 +190,7 @@ class KImage {
       }
     } catch (e) {
       return fromDecorationAssetImage(
-        imagePath: KImagePath.demoImage,
+        imagePath: KImagePath.defaultImage,
         fit: BoxFit.cover,
       );
     }

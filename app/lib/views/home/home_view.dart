@@ -1,4 +1,5 @@
 import 'package:app/helper/constant/colors.dart';
+import 'package:app/helper/routes/approuter.dart';
 import 'package:app/helper/utils/edgeinsert.dart';
 import 'package:app/helper/utils/textstyle.dart';
 import 'package:app/views/common/text_widgets.dart';
@@ -42,7 +43,9 @@ class HomeView extends StatelessWidget {
         ),
         const Spacer(),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            AppRouter.goToSignIn();
+          },
           icon: Icon(
             CupertinoIcons.profile_circled,
             size: 35.sp,
