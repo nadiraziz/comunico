@@ -3,7 +3,7 @@ from rest_framework import viewsets, status, serializers
 from rest_framework.response import Response
 from .models import UserVideo
 from .serializers import UserVideoSerializer, AnalysisHistorySerializer
-from .analysis import analyze_video
+from .analysis import analyze_communication
 
 
 class UserVideoViewSet(viewsets.ModelViewSet):
@@ -54,14 +54,11 @@ class UserVideoViewSet(viewsets.ModelViewSet):
         #     raise serializers.ValidationError(error_message)
 
         # Proceed with video analysis
-        analysis_results = analyze_video(video_instance.video.path)
-        video_instance.stage_fear_score = analysis_results.get(
-            'stage_fear', 0)
-        video_instance.boldness_score = analysis_results.get('boldness', 0)
-        # video_instance.communication_skills_score = analysis_results.get(
-        #     'communication_skills', 0)
-        # video_instance.vocabulary_usage_score = analysis_results.get(
-        #     'vocabulary_usage', 0)
+        analysis_results = analyze_communication(video_instance.video.path)
+        video_instance.voice_emotion = analysis_results['voice_emotion']
+        video_instance.face_emotion = analysis_results['face_emotion']
+        video_instance.feedback = analysis_results['feedback']
+        video_instance.additional_feedback = analysis_results['additional_feedback']
         video_instance.save()
 
     def _is_valid_video_format(self, video_file):

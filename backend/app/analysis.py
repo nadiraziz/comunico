@@ -11,10 +11,10 @@ import matplotlib.pyplot as plt
 
 
 # Path
-video_path_to_analyze = '/Users/nadirazeez/Documents/shermina/comunico/app/demo/female/disappointed.mp4'
-voice_model_path = '/Users/nadirazeez/Documents/shermina/comunico/app/ver/model/speech_emotion_model.pkl'
-face_model_path = '/Users/nadirazeez/Documents/shermina/comunico/app/fer/model/network.json'
-weights_path = '/Users/nadirazeez/Documents/shermina/comunico/app/fer/model/Education.h5'
+video_path_to_analyze = './app/demo/female/disappointed.mp4'
+voice_model_path = './app/ver/model/speech_emotion_model.pkl'
+face_model_path = './app/fer/model/network.json'
+weights_path = './app/fer/model/Education.h5'
 
 # Additional Feedback Messages
 additional_feedback_dict = {
@@ -149,7 +149,7 @@ def analyze_communication(video_path):
     overall_feedback = f"Overall, {voice_feedback} {face_feedback}"
 
     # Choose additional feedback based on the combination of voice and face emotions
-    key_combination = f'{voice_emotion}_{average_face_emotion}'
+    key_combination = f'{voice_emotion.lower()}_{average_face_emotion.capitalize()}'
     additional_suggestion = additional_feedback_dict.get(key_combination, "")
 
     # Merge suggestions and additional feedback
@@ -164,11 +164,3 @@ def analyze_communication(video_path):
         os.remove(audio_output_path)
 
     return suggestions
-
-
-suggestions = analyze_communication(
-    video_path_to_analyze)
-
-print("Suggestions:")
-for key, value in suggestions.items():
-    print(f'{key}: {value}')
