@@ -44,7 +44,7 @@ class HomeView extends StatelessWidget {
         const Spacer(),
         IconButton(
           onPressed: () {
-            AppRouter.goToSignIn();
+            AppRouter.goToProfile();
           },
           icon: Icon(
             CupertinoIcons.profile_circled,

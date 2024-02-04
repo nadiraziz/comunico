@@ -8,10 +8,10 @@ import 'package:get/get.dart';
 class AppRouter {
   static final routes = [
     GetPage(name: '/', page: () => const HomeView()),
-    GetPage(name: '/signup', page: () => const SignupView()),
-    GetPage(name: '/signin', page: () => const SigninView()),
+    GetPage(name: '/signup', page: () => SignupView()),
+    GetPage(name: '/signin', page: () => SigninView()),
     GetPage(name: '/analyze', page: () => const AnalyzeView()),
-    GetPage(name: '/profile', page: () => const ProfileView()),
+    GetPage(name: '/profile', page: () => ProfileView()),
   ];
 
   static void goToHome() {
@@ -19,11 +19,11 @@ class AppRouter {
   }
 
   static void goToSignUp() {
-    Get.toNamed('/signup');
+    Get.offNamed('/signup');
   }
 
   static void goToSignIn() {
-    Get.toNamed('/signin');
+    Get.offNamed('/signin');
   }
 
   static void goToAnalyze() {
