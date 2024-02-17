@@ -3,7 +3,6 @@ import 'package:app/helper/utils/borderradius.dart';
 import 'package:app/helper/utils/edgeinsert.dart';
 import 'package:app/helper/utils/textstyle.dart';
 import 'package:app/helper/utils/theme.dart';
-import 'package:app/views/common/text_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +11,7 @@ import 'package:intl/intl.dart';
 Widget kTextFormField({
   required TextEditingController controller,
   Widget? prefixIcon,
+  Widget? suffixIcon,
   required String hintText,
   bool? isPassword,
   String? Function(String?)? validator,
@@ -20,6 +20,7 @@ Widget kTextFormField({
   return Padding(
       padding: KEdgeInset.kV5,
       child: TextFormField(
+        obscureText: isPassword ?? false,
         enabled: isDisable == true ? false : true,
         controller: isDisable != true ? controller : null,
         validator: validator,
@@ -34,14 +35,7 @@ Widget kTextFormField({
               radius: 10.r,
             ),
           ),
-          suffixIcon: isPassword == true
-              ? IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    CupertinoIcons.eye_fill,
-                  ),
-                )
-              : null,
+          suffixIcon: suffixIcon,
           disabledBorder: OutlineInputBorder(
             borderRadius: KBorderRadius.kAllLR(
               radius: 10.r,

@@ -1,11 +1,15 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:app/controller/profile/profile_controller.dart';
+import 'package:app/controller/sharedpreference/sharedpreference_controller.dart';
 import 'package:app/helper/constant/colors.dart';
+import 'package:app/helper/extensions/datetime.dart';
 import 'package:app/helper/utils/borderradius.dart';
 import 'package:app/helper/utils/edgeinsert.dart';
 import 'package:app/helper/utils/sizedbox.dart';
 import 'package:app/helper/utils/textstyle.dart';
 import 'package:app/views/common/buttons_widgets.dart';
+import 'package:app/views/common/loading_widgets.dart';
 import 'package:app/views/common/text_widgets.dart';
 import 'package:app/views/common/textformfield_widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,26 +25,50 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProfileController controller = Get.find();
+    controller.getProfile();
     return Scaffold(
       body: SafeArea(
           child: Padding(
         padding: KEdgeInset.kVH15,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            titleSection(),
-            KSizedBox.h30,
-            profileField(label: "Username", value: "Nadir"),
-            profileField(label: "Date of Birth", value: "23 Jan 2023"),
-            profileField(label: "Gender", value: "Male"),
-            KSizedBox.h30,
-            KButton().buttonFullWidth(
-                buttonString: "Logout",
-                buttonBgColor: KColors.primaryColor,
-                buttonTextColor: Colors.white,
-                buttonFunc: () {})
-          ],
-        ),
+        child: Obx(() {
+          if (controller.isLoading.value == true) {
+            return Center(child: kLoadingCircularWidget());
+          } else if (controller.profileData.value != null) {
+            final profileData = controller.profileData;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                titleSection(),
+                KSizedBox.h30,
+                profileField(
+                  label: "Username",
+                  value: profileData.value?.name ?? "Not Provided",
+                ),
+                profileField(
+                  label: "Date of Birth",
+                  value: profileData.value!.dateOfBirth?.formattedDate() ??
+                      "Not Provided",
+                ),
+                profileField(
+                  label: "Gender",
+                  value: profileData.value?.gender ?? "Not Provided",
+                ),
+                KSizedBox.h30,
+                KButton().buttonFullWidth(
+                  buttonString: "Logout",
+                  buttonBgColor: KColors.primaryColor,
+                  buttonTextColor: Colors.white,
+                  buttonFunc: () async {
+                    await SharedPreferenceController().logOut();
+                  },
+                )
+              ],
+            );
+          }
+          return const SizedBox();
+        }),
       )),
     );
   }
