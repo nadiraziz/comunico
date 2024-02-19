@@ -1,20 +1,24 @@
 // ignore_for_file: deprecated_member_use, unnecessary_null_comparison, non_constant_identifier_names
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
+import 'package:app/controller/auth/auth_controller.dart';
 import 'package:app/controller/sharedpreference/sharedpreference_controller.dart';
 import 'package:app/helper/constant/api_urls.dart';
 import 'package:dio/dio.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 // ApiService class for making HTTP requests and handling errors
 
 class APIService {
   final Dio _dio = Dio();
 
-  APIService() {
-    _setupInterceptors();
+  APIService({bool? disableToken}) {
+    _setupInterceptors(isAuthenticate: disableToken == true ? false : true);
   }
 
   // Setup Dio interceptors for handling authentication
-  void _setupInterceptors() {
+  void _setupInterceptors({required bool isAuthenticate}) {
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
         options.validateStatus = (int? status) {
@@ -25,11 +29,21 @@ class APIService {
           }
           return true;
         };
-        // Add authentication token to headers if available
-        final token = SharedPreferenceController().getAccessToken();
 
-        if (token != null) {
-          options.headers['Authorization'] = "JWT $token";
+        if (isAuthenticate) {
+          // Add authentication token to headers if available
+          String? token = SharedPreferenceController().getAccessToken();
+
+          bool isExpired = JwtDecoder.isExpired(token);
+          if (isExpired) {
+            token = await AuthController().updateAccessToken();
+          }
+
+          if (token != null) {
+            options.headers['Authorization'] = "Bearer $token";
+          } else {
+            SharedPreferenceController().logOut();
+          }
         }
 
         return handler.next(options);
@@ -94,6 +108,29 @@ class APIService {
       return response;
     } catch (e) {
       // Handle DioError or other exceptions
+      throw Exception(e);
+    }
+  }
+
+  Future<Response<dynamic>> postMultipartFile({
+    required String path,
+    required String fieldName,
+    required File file,
+    Map<String, dynamic>? params,
+  }) async {
+    try {
+      FormData formData = FormData.fromMap({
+        fieldName: await MultipartFile.fromFile(file.path),
+      });
+
+      final response = await _dio.post(
+        APIUrl.baseUrl + path,
+        data: formData,
+        queryParameters: params,
+      );
+
+      return response;
+    } catch (e) {
       throw Exception(e);
     }
   }

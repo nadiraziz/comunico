@@ -1,3 +1,4 @@
+import 'package:app/controller/auth/auth_controller.dart';
 import 'package:app/helper/constant/colors.dart';
 import 'package:app/helper/constant/enum.dart';
 import 'package:app/helper/constant/imagepath.dart';
@@ -11,14 +12,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get/get.dart';
 
-class SignupView extends StatelessWidget {
+class SignupView extends GetView<AuthController> {
   SignupView({Key? key}) : super(key: key);
-
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-  TextEditingController dobController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -69,100 +66,133 @@ class SignupView extends StatelessWidget {
   }
 
   Widget signUpForm() {
-    return Container(
-      padding: KEdgeInset.kVH15,
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: <Widget>[
-            kTextFormField(
-              controller: userNameController,
-              hintText: "Username",
-              validator: FormBuilderValidators.compose([
-                FormBuilderValidators.required(
-                  errorText: "Username is required",
+    return GetBuilder<AuthController>(
+      init: AuthController(),
+      builder: (_) {
+        return Container(
+          padding: KEdgeInset.kVH15,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                kTextFormField(
+                  controller: _.userNameController,
+                  hintText: "Username",
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                      errorText: "Username is required",
+                    ),
+                  ]),
+                  prefixIcon: Icon(
+                    CupertinoIcons.profile_circled,
+                    color: KColors.primaryColor,
+                  ),
                 ),
-              ]),
-              prefixIcon: Icon(
-                CupertinoIcons.profile_circled,
-                color: KColors.primaryColor,
-              ),
-            ),
-            kTextFormField(
-              controller: passwordController,
-              hintText: "Password",
-              validator: FormBuilderValidators.compose([
-                FormBuilderValidators.required(
-                  errorText: "Password is required",
+                kTextFormField(
+                  controller: _.emailController,
+                  hintText: "Email",
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                      errorText: "Email is required",
+                    ),
+                    FormBuilderValidators.email(),
+                  ]),
+                  prefixIcon: Icon(
+                    Icons.email_outlined,
+                    color: KColors.primaryColor,
+                  ),
                 ),
-                FormBuilderValidators.minLength(6),
-              ]),
-              prefixIcon: Icon(
-                CupertinoIcons.lock_circle,
-                color: KColors.primaryColor,
-              ),
-            ),
-            kTextFormField(
-              controller: passwordController,
-              hintText: "Confirm Password",
-              validator: FormBuilderValidators.compose([
-                FormBuilderValidators.required(
-                  errorText: "Password is required",
+                kTextFormField(
+                  controller: _.passwordController,
+                  hintText: "Password",
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                      errorText: "Password is required",
+                    ),
+                    FormBuilderValidators.minLength(6),
+                  ]),
+                  prefixIcon: Icon(
+                    CupertinoIcons.lock_circle,
+                    color: KColors.primaryColor,
+                  ),
                 ),
-                FormBuilderValidators.minLength(6),
-              ]),
-              prefixIcon: Icon(
-                CupertinoIcons.lock_circle,
-                color: KColors.primaryColor,
-              ),
-              isPassword: true,
+                kTextFormField(
+                  controller: _.password2Controller,
+                  hintText: "Confirm Password",
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                      errorText: "Password is required",
+                    ),
+                    FormBuilderValidators.minLength(6),
+                  ]),
+                  prefixIcon: Icon(
+                    CupertinoIcons.lock_circle,
+                    color: KColors.primaryColor,
+                  ),
+                  isPassword: true,
+                ),
+                Builder(builder: (context) {
+                  return kDateTimeFormField(
+                      context: context,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                      ]),
+                      controller: _.dobController,
+                      hintText: "Date of Birth");
+                }),
+                genderSection(),
+                Padding(
+                  padding: KEdgeInset.kV10,
+                  child: KButton().buttonFullWidth(
+                    buttonString: "Sign Up",
+                    buttonBgColor: KColors.primaryColor,
+                    buttonTextColor: Colors.white,
+                    buttonFunc: () {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        _.signUp();
+                      }
+                    },
+                  ),
+                )
+              ],
             ),
-            Builder(builder: (context) {
-              return kDateTimeFormField(
-                  context: context,
-                  controller: dobController,
-                  hintText: "Date of Birth");
-            }),
-            genderSection(),
-            Padding(
-              padding: KEdgeInset.kV10,
-              child: KButton().buttonFullWidth(
-                buttonString: "Sign Up",
-                buttonBgColor: KColors.primaryColor,
-                buttonTextColor: Colors.white,
-                buttonFunc: () {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    // Form is valid, proceed with login logic
-                    // You can access form field values using:
-                    // userNameController.text and passwordController.text
-                  }
-                },
-              ),
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
-  Row genderSection() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        genderRadioButton(value: Gender.male, label: "Male"),
-        genderRadioButton(value: Gender.female, label: "Female"),
-        genderRadioButton(value: Gender.other, label: "Other"),
-      ],
-    );
+  Widget genderSection() {
+    return Obx(() => Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            genderRadioButton(
+              value: Gender.male,
+              label: "Male",
+            ),
+            genderRadioButton(
+              value: Gender.female,
+              label: "Female",
+            ),
+            genderRadioButton(
+              value: Gender.other,
+              label: "Other",
+            ),
+          ],
+        ));
   }
 
   Widget genderRadioButton({required Gender value, required String label}) {
     return Row(
       children: [
-        Radio(
+        Radio<Gender>(
           value: value,
-          groupValue: Gender.male,
-          onChanged: (value) {},
+          groupValue: controller.gender.value,
+          onChanged: (value) {
+            if (value != null) {
+              controller.toggleGender(genderValue: value);
+            }
+          },
         ),
         KText.body1Text(
           text: label,

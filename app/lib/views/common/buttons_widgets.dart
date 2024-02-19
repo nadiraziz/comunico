@@ -110,9 +110,9 @@ class KButton {
       width: double.infinity,
       child: elevated(
         isMuted: isLoading ?? isMute ?? false,
-        bgColor: buttonBgColor,
+        bgColor: isMute == true ? KColors.muteColor : buttonBgColor,
         buttonTextwidget: isLoading == true
-            ? kLoadingCircularWidget(color: buttonTextColor)
+            ? kLoadingCircularWidget(color: KColors.primaryColor)
             : KText.customText(
                 text: buttonString,
                 textStyle: KTextStyle.style18.copyWith(

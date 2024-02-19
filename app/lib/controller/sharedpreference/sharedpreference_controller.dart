@@ -1,3 +1,4 @@
+import 'package:app/helper/routes/approuter.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,10 +19,12 @@ class SharedPreferenceController extends GetxController {
   // Save tokens to shared preferences
   Future<void> saveToken({
     required String accessToken,
-    required String refreshToken,
+    String? refreshToken,
   }) async {
     await prefs?.setString(accessTokenKey, accessToken);
-    await prefs?.setString(refreshTokenKey, refreshToken);
+    if (refreshToken != null) {
+      await prefs?.setString(refreshTokenKey, refreshToken);
+    }
     await prefs?.setBool(isUserLoggedKey, true);
   }
 
@@ -30,9 +33,13 @@ class SharedPreferenceController extends GetxController {
     return prefs?.getString(accessTokenKey) ?? "";
   }
 
+  // get token
+  String getRefreshToken() {
+    return prefs?.getString(refreshTokenKey) ?? "";
+  }
+
   // User logged or not
   bool isUserLogged() {
-    print("Is User ${prefs?.getBool(isUserLoggedKey)}");
     return prefs?.getBool(isUserLoggedKey) ?? false;
   }
 
@@ -41,5 +48,6 @@ class SharedPreferenceController extends GetxController {
     prefs?.remove(accessTokenKey);
     prefs?.remove(refreshTokenKey);
     prefs?.setBool(isUserLoggedKey, false);
+    AppRouter.goToSignIn();
   }
 }

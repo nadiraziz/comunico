@@ -16,7 +16,6 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 1), () {
-      print(SharedPreferenceController().isUserLogged());
       if (SharedPreferenceController().isUserLogged()) {
         AppRouter.goToHome();
       } else {

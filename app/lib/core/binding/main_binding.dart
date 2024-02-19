@@ -1,3 +1,4 @@
+import 'package:app/controller/analyze/analyze_controller.dart';
 import 'package:app/controller/auth/auth_controller.dart';
 import 'package:app/controller/profile/profile_controller.dart';
 import 'package:app/core/api/api_service.dart';
@@ -12,5 +13,6 @@ class MainBinding extends Bindings {
     Get.put<SharedPreferenceController>(SharedPreferenceController());
     Get.put<APIService>(APIService());
     Get.put<ProfileController>(ProfileController());
+    Get.put<AnalyzeController>(AnalyzeController());
   }
 }
