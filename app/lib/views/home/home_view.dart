@@ -1,3 +1,6 @@
+// ignore_for_file: invalid_use_of_protected_member
+
+import 'package:app/controller/home/home_controller.dart';
 import 'package:app/controller/profile/profile_controller.dart';
 import 'package:app/helper/constant/colors.dart';
 import 'package:app/helper/routes/approuter.dart';
@@ -5,46 +8,101 @@ import 'package:app/helper/utils/borderradius.dart';
 import 'package:app/helper/utils/edgeinsert.dart';
 import 'package:app/helper/utils/sizedbox.dart';
 import 'package:app/helper/utils/textstyle.dart';
+import 'package:app/views/common/image_widgets.dart';
 import 'package:app/views/common/text_widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:wave/wave.dart';
+
+import 'package:wave/config.dart';
+import 'package:youtube_scrape_api/youtube_scrape_api.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
 
-  CarouselSlider carouselVideoTips() {
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: 200.0,
-        enableInfiniteScroll: true,
-        reverse: false,
-        autoPlay: true,
-        autoPlayInterval: const Duration(seconds: 3),
-        autoPlayAnimationDuration: const Duration(milliseconds: 800),
-        autoPlayCurve: Curves.fastOutSlowIn,
-        enlargeCenterPage: true,
-        enlargeFactor: 0.3,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            titleSection(),
+            KSizedBox.h10,
+            carouselVideoTips(context),
+            KSizedBox.h10,
+            Container(
+              margin: KEdgeInset.kVH10,
+              padding: KEdgeInset.kH10,
+              height: 200.h,
+              decoration: BoxDecoration(
+                borderRadius: KBorderRadius.kAllLR(radius: 10.r),
+                border: Border.all(
+                  color: KColors.primaryColor,
+                  width: 5.h,
+                ),
+              ),
+            ),
+            featuresTab(),
+          ],
+        ),
       ),
-      items: [1, 2, 3, 4, 5].map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-                width: MediaQuery.of(context).size.width,
-                alignment: Alignment.center,
-                margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(
-                    color: KColors.primaryColor,
-                    borderRadius: KBorderRadius.kAllLR(radius: 10.r)),
-                child: Text(
-                  'text $i',
-                  style: const TextStyle(fontSize: 16.0),
-                ));
-          },
-        );
-      }).toList(),
+    );
+  }
+
+  Widget carouselVideoTips(context) {
+    return GetX<HomeController>(
+      init: HomeController(),
+      initState: (_) {
+        _.controller?.getImproveTipsAndTricks();
+      },
+      builder: (controller) {
+        if (controller.videoTipsList.isEmpty) {
+          return const SizedBox();
+        } else if (controller.isLoading.value) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          return CarouselSlider(
+            options: CarouselOptions(
+              height: 200.0,
+              viewportFraction:
+                  controller.videoTipsList.length == 1 ? 0.95 : 0.8,
+              enableInfiniteScroll:
+                  controller.videoTipsList.length == 1 ? false : true,
+              reverse: controller.videoTipsList.length == 1 ? false : true,
+              autoPlay: controller.videoTipsList.length == 1 ? false : true,
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enlargeCenterPage:
+                  controller.videoTipsList.length == 1 ? false : true,
+              enlargeFactor: 0.3,
+            ),
+            items: controller.videoTipsList.value.map((i) {
+              return GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: BoxDecoration(
+                      color: KColors.primaryColor,
+                      borderRadius: KBorderRadius.kAllLR(radius: 10.r)),
+                  child: Text(
+                    'text $i',
+                    style: const TextStyle(fontSize: 16.0),
+                  ),
+                ),
+              );
+            }).toList(),
+          );
+        }
+      },
     );
   }
 
@@ -159,35 +217,6 @@ class HomeView extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            titleSection(),
-            KSizedBox.h10,
-            carouselVideoTips(),
-            KSizedBox.h10,
-            Container(
-              margin: KEdgeInset.kVH10,
-              padding: KEdgeInset.kH10,
-              height: 200.h,
-              decoration: BoxDecoration(
-                borderRadius: KBorderRadius.kAllLR(radius: 10.r),
-                border: Border.all(
-                  color: KColors.primaryColor,
-                  width: 5.h,
-                ),
-              ),
-            ),
-            featuresTab(),
-          ],
-        ),
       ),
     );
   }
