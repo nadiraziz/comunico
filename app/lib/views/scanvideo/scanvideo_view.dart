@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:app/controller/analyze/analyze_controller.dart';
 import 'package:app/helper/constant/colors.dart';
 import 'package:app/helper/constant/imagepath.dart';

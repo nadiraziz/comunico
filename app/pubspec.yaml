@@ -23,14 +23,16 @@ dependencies:
   form_validator: ^2.1.1
   freezed_annotation: ^2.4.1
   get: ^4.6.6
-  google_fonts: ^6.1.0
+  # google_fonts: ^6.1.0
+
   image_picker: ^1.0.7
   jwt_decoder: ^2.0.1
   logger: ^2.0.2+1
   shared_preferences: ^2.2.2
+  url_launcher: ^6.2.5
   video_thumbnail: ^0.5.3
   wave: ^0.2.2
-  youtube_scrape_api: ^0.0.6
+  youtube: ^1.0.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0

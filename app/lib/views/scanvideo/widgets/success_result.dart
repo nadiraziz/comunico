@@ -1,6 +1,5 @@
 import 'package:app/helper/routes/approuter.dart';
 import 'package:app/helper/utils/edgeinsert.dart';
-import 'package:app/models/analyze/scanresult.dart';
 import 'package:flutter/material.dart';
 import 'package:app/controller/analyze/analyze_controller.dart';
 import 'package:app/helper/constant/appstring.dart';

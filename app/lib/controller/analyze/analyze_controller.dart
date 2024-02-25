@@ -46,7 +46,6 @@ class AnalyzeController extends GetxController {
         isLoading(false);
       }
     } catch (e) {
-      print(e);
       // Handle failed response
       Get.snackbar(
         'Sorry',
@@ -70,7 +69,6 @@ class AnalyzeController extends GetxController {
         // If the response is successful, parse the data
         analyzeHistoryResponse.value =
             analyzeHistoryResponseFromJson(jsonEncode(response.data));
-        print(analyzeHistoryResponse);
 
         isLoading(false);
       } else {
@@ -81,7 +79,6 @@ class AnalyzeController extends GetxController {
         isLoading(false);
       }
     } catch (e) {
-      print(e);
       // Handle failed response
       Get.snackbar(
         'Sorry',

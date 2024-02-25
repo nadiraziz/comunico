@@ -15,8 +15,6 @@ class HomeController extends GetxController {
   Future<void> getImproveTipsAndTricks() async {
     isLoading(true);
 
-    print("Nadir");
-
     // Make a POST request without a token
     final response = await APIService().get(APIUrl.videoTips);
 

@@ -1,6 +1,8 @@
 # app/serializers.py
+from user.models import CustomUser
+from django.db import models
 from rest_framework import serializers
-from .models import UserVideo
+from .models import UserVideo, VideoTips
 
 
 class UserVideoSerializer(serializers.ModelSerializer):
@@ -12,5 +14,11 @@ class UserVideoSerializer(serializers.ModelSerializer):
 class AnalysisHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserVideo
-        fields = ['id', 'stage_fear_score', 'boldness_score',
-                  'communication_skills_score', 'vocabulary_usage_score', 'created_at']
+        fields = ['id', 'video', 'voice_emotion',
+                  'face_emotion', 'feedback', 'additional_feedback', 'created_at',]
+
+
+class VideoTipsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VideoTips
+        fields = '__all__'

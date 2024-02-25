@@ -14,7 +14,13 @@ SECRET_KEY = 'django-insecure-47gsd#mq5l2b1u#0$56xlw-49&yanls97hbo&i^ubef70(ricv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [
+    '10.0.2.2',
+    '127.0.0.1'
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Application definition
@@ -28,29 +34,32 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'user',
+    'feedback',
+    'corsheaders',
+
     'rest_framework',
     'rest_framework_simplejwt',
 ]
 
+AUTH_USER_MODEL = 'user.CustomUser'
+
+
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
-SIMPLE_JWT = {
 
+
+SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
-    'VERIFYING_KEY': None,
-    'AUTH_HEADER_TYPES': ('JWT',),
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-    'TOKEN_TYPE_CLAIM': 'token_type',
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME': timedelta(days=30),
+    'SLIDING_TOKEN_REFRESH_LIFETIME_LATE_USER': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME_LATE_USER': timedelta(days=30),
 }
 
 
@@ -58,17 +67,12 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-# CORS_ALLOWED_ORIGINS = [
-#     # ... add your allowed origins here
-#     ''
-# ]
 
 
 ROOT_URLCONF = 'comunico.urls'

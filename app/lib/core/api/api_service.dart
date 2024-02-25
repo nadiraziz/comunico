@@ -1,5 +1,4 @@
 // ignore_for_file: deprecated_member_use, unnecessary_null_comparison, non_constant_identifier_names
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:app/controller/auth/auth_controller.dart';

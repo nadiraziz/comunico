@@ -1,6 +1,6 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 ThemeData lightTheme = FlexThemeData.light(
   scheme: FlexScheme.sakura,
@@ -18,7 +18,7 @@ ThemeData lightTheme = FlexThemeData.light(
   useMaterial3: true,
   swapLegacyOnMaterial3: true,
   // To use the Playground font, add GoogleFonts package and uncomment
-  fontFamily: GoogleFonts.notoSans().fontFamily,
+  // fontFamily: GoogleFonts.notoSans().fontFamily,
 );
 
 final darkTheme = FlexThemeData.dark(
@@ -36,5 +36,5 @@ final darkTheme = FlexThemeData.dark(
   useMaterial3: true,
   swapLegacyOnMaterial3: true,
   // To use the Playground font, add GoogleFonts package and uncomment
-  fontFamily: GoogleFonts.notoSans().fontFamily,
+  // fontFamily: GoogleFonts.notoSans().fontFamily,
 );

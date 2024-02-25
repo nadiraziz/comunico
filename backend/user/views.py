@@ -41,9 +41,11 @@ class SignUpView(CreateAPIView):
 
 
 class SignInView(APIView):
+    permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kwargs):
         required_fields = ['email', 'password']
+
         missing_fields = [
             field for field in required_fields if not request.data.get(field)]
 
@@ -52,6 +54,8 @@ class SignInView(APIView):
 
         email = request.data.get('email')
         password = request.data.get('password')
+
+        print(email)
 
         user = CustomUser.objects.filter(email=email).first()
         print(user)

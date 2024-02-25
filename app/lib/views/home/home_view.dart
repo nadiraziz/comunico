@@ -4,6 +4,7 @@ import 'package:app/controller/home/home_controller.dart';
 import 'package:app/controller/profile/profile_controller.dart';
 import 'package:app/helper/constant/colors.dart';
 import 'package:app/helper/routes/approuter.dart';
+import 'package:app/helper/services/youtube.dart';
 import 'package:app/helper/utils/borderradius.dart';
 import 'package:app/helper/utils/edgeinsert.dart';
 import 'package:app/helper/utils/sizedbox.dart';
@@ -15,11 +16,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
-import 'package:wave/wave.dart';
-
-import 'package:wave/config.dart';
-import 'package:youtube_scrape_api/youtube_scrape_api.dart';
+import 'package:youtube/youtube_thumbnail.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -34,6 +31,7 @@ class HomeView extends StatelessWidget {
             KSizedBox.h10,
             carouselVideoTips(context),
             KSizedBox.h10,
+            featuresTab(),
             Container(
               margin: KEdgeInset.kVH10,
               padding: KEdgeInset.kH10,
@@ -46,7 +44,6 @@ class HomeView extends StatelessWidget {
                 ),
               ),
             ),
-            featuresTab(),
           ],
         ),
       ),
@@ -60,13 +57,7 @@ class HomeView extends StatelessWidget {
         _.controller?.getImproveTipsAndTricks();
       },
       builder: (controller) {
-        if (controller.videoTipsList.isEmpty) {
-          return const SizedBox();
-        } else if (controller.isLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
+        if (controller.videoTipsList.isNotEmpty) {
           return CarouselSlider(
             options: CarouselOptions(
               height: 200.0,
@@ -84,8 +75,13 @@ class HomeView extends StatelessWidget {
               enlargeFactor: 0.3,
             ),
             items: controller.videoTipsList.value.map((i) {
+              final videoId =
+                  YoutubeService().convertUrlToId(i.videoLink ?? "") ?? "";
+
               return GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  await YoutubeService().videolaunchUrl(url: i.videoLink ?? "");
+                },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   alignment: Alignment.center,
@@ -93,15 +89,15 @@ class HomeView extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: KColors.primaryColor,
                       borderRadius: KBorderRadius.kAllLR(radius: 10.r)),
-                  child: Text(
-                    'text $i',
-                    style: const TextStyle(fontSize: 16.0),
+                  child: KImage().fromNetwork(
+                    imagePath: YoutubeThumbnail(youtubeId: videoId).mq(),
                   ),
                 ),
               );
             }).toList(),
           );
         }
+        return const SizedBox();
       },
     );
   }

@@ -10,7 +10,9 @@ class CustomUserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(name=name, email=email,
                           date_of_birth=date_of_birth, gender=gender, **extra_fields)
+        user.gender = gender.lower() if gender else None
         user.set_password(password)
+
         user.save(using=self._db)
         return user
 
