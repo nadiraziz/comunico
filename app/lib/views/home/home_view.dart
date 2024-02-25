@@ -9,9 +9,11 @@ import 'package:app/helper/utils/borderradius.dart';
 import 'package:app/helper/utils/edgeinsert.dart';
 import 'package:app/helper/utils/sizedbox.dart';
 import 'package:app/helper/utils/textstyle.dart';
+import 'package:app/views/chart/chart_view.dart';
 import 'package:app/views/common/image_widgets.dart';
 import 'package:app/views/common/text_widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,26 +27,29 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            titleSection(),
-            KSizedBox.h10,
-            carouselVideoTips(context),
-            KSizedBox.h10,
-            featuresTab(),
-            Container(
-              margin: KEdgeInset.kVH10,
-              padding: KEdgeInset.kH10,
-              height: 200.h,
-              decoration: BoxDecoration(
-                borderRadius: KBorderRadius.kAllLR(radius: 10.r),
-                border: Border.all(
-                  color: KColors.primaryColor,
-                  width: 5.h,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              titleSection(),
+              KSizedBox.h10,
+              carouselVideoTips(context),
+              KSizedBox.h10,
+              featuresTab(),
+              Container(
+                margin: KEdgeInset.kVH10,
+                padding: KEdgeInset.kH10,
+                height: 200.h,
+                decoration: BoxDecoration(
+                  borderRadius: KBorderRadius.kAllLR(radius: 10.r),
+                  border: Border.all(
+                    color: KColors.primaryColor,
+                    width: 5.h,
+                  ),
                 ),
+                child: FeedbackChart([]),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
