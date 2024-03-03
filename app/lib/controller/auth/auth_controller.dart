@@ -79,6 +79,7 @@ class AuthController extends GetxController {
         return null;
       }
     } catch (e) {
+      print(e);
       // Handle failed response
       Get.snackbar(
         'Sorry',

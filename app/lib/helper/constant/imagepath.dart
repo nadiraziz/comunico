@@ -6,4 +6,6 @@ class KImagePath {
   static String chart = "assets/images/chart.png";
   static String signIn = "assets/images/signin.gif";
   static String scan = "assets/images/scan.png";
+
+  static String notFound = "assets/images/notfound.jpg";
 }

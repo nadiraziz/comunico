@@ -1,3 +1,4 @@
+import 'package:app/views/common/datanotfound.dart';
 import 'package:flutter/material.dart';
 import 'package:app/controller/analyze/analyze_controller.dart';
 import 'package:app/models/analyze/analyze_history.dart';
@@ -19,14 +20,18 @@ class AnalysisHistoryView extends StatelessWidget {
           _.controller?.getAnalyzeHistory();
         },
         builder: (_) {
-          final analyzeHistoryList = _.analyzeHistoryResponse.reversed.toList();
+          final analyzeHistoryList = _.analyzeHistoryResponse;
 
-          return ListView.builder(
-            itemCount: analyzeHistoryList.length,
-            itemBuilder: (context, index) {
-              return _buildAnalysisCard(context, analyzeHistoryList[index]);
-            },
-          );
+          if (analyzeHistoryList.isNotEmpty) {
+            return ListView.builder(
+              reverse: true,
+              itemCount: analyzeHistoryList.length,
+              itemBuilder: (context, index) {
+                return _buildAnalysisCard(context, analyzeHistoryList[index]);
+              },
+            );
+          }
+          return const DataNotFoundWidget();
         },
       ),
     );
