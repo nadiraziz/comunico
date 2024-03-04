@@ -9,7 +9,6 @@ import 'package:app/helper/utils/borderradius.dart';
 import 'package:app/helper/utils/edgeinsert.dart';
 import 'package:app/helper/utils/sizedbox.dart';
 import 'package:app/helper/utils/textstyle.dart';
-import 'package:app/views/chart/chart_view.dart';
 import 'package:app/views/common/image_widgets.dart';
 import 'package:app/views/common/text_widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -34,19 +33,6 @@ class HomeView extends StatelessWidget {
               carouselVideoTips(context),
               KSizedBox.h10,
               featuresTab(),
-              Container(
-                margin: KEdgeInset.kVH10,
-                padding: KEdgeInset.kH10,
-                height: 200.h,
-                decoration: BoxDecoration(
-                  borderRadius: KBorderRadius.kAllLR(radius: 10.r),
-                  border: Border.all(
-                    color: KColors.primaryColor,
-                    width: 5.h,
-                  ),
-                ),
-                child: const FeedbackChart([]),
-              ),
             ],
           ),
         ),
@@ -91,8 +77,9 @@ class HomeView extends StatelessWidget {
                   alignment: Alignment.center,
                   margin: const EdgeInsets.symmetric(horizontal: 5.0),
                   decoration: BoxDecoration(
-                      color: KColors.primaryColor,
-                      borderRadius: KBorderRadius.kAllLR(radius: 10.r)),
+                    color: KColors.primaryColor,
+                    borderRadius: KBorderRadius.kAllLR(radius: 10.r),
+                  ),
                   child: KImage().fromNetwork(
                     imagePath: YoutubeThumbnail(youtubeId: videoId).mq(),
                   ),
@@ -109,23 +96,48 @@ class HomeView extends StatelessWidget {
   Widget featuresTab() {
     return Padding(
       padding: KEdgeInset.kVH10,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Column(
         children: [
-          iconTabWidget(
-            title: "Scan Video",
-            icon: Icons.document_scanner,
-            function: () {
-              AppRouter.goToScanVideo();
-            },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              iconTabWidget(
+                title: "Scan Video",
+                icon: Icons.document_scanner,
+                function: () {
+                  AppRouter.goToScanVideo();
+                },
+              ),
+              KSizedBox.w10,
+              iconTabWidget(
+                title: "Analyze History",
+                icon: Icons.history_edu,
+                function: () {
+                  AppRouter.goToAnalyzeHistory();
+                },
+              ),
+            ],
           ),
-          KSizedBox.w10,
-          iconTabWidget(
-            title: "Analyze History",
-            icon: Icons.history_edu,
-            function: () {
-              AppRouter.goToAnalyzeHistory();
-            },
+          KSizedBox.h10,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              iconTabWidget(
+                title: "Analytics Chart",
+                icon: Icons.analytics,
+                function: () {
+                  AppRouter.goToAnayliticsChart();
+                },
+              ),
+              KSizedBox.w10,
+              iconTabWidget(
+                title: "Video Tips",
+                icon: Icons.video_library_sharp,
+                function: () {
+                  AppRouter.goToVideoTips();
+                },
+              ),
+            ],
           ),
         ],
       ),
@@ -143,7 +155,7 @@ class HomeView extends StatelessWidget {
           function();
         },
         child: Container(
-          height: 100.h,
+          height: 150.h,
           padding: KEdgeInset.kVH10,
           alignment: Alignment.center,
           decoration: BoxDecoration(

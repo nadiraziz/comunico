@@ -11,6 +11,7 @@ dependencies:
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
   dio: ^5.4.0
+  fl_chart: ^0.66.2
   flex_color_scheme: ^7.3.1
   flutter:
     sdk: flutter
@@ -23,12 +24,12 @@ dependencies:
   form_validator: ^2.1.1
   freezed_annotation: ^2.4.1
   get: ^4.6.6
-  # google_fonts: ^6.1.0
-  fl_chart: ^0.66.2
   image_picker: ^1.0.7
   jwt_decoder: ^2.0.1
   logger: ^2.0.2+1
   shared_preferences: ^2.2.2
+  timeago: ^3.6.1
+
   url_launcher: ^6.2.5
   video_thumbnail: ^0.5.3
   wave: ^0.2.2

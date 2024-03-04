@@ -4,6 +4,7 @@ import 'package:app/controller/analyze/analyze_controller.dart';
 import 'package:app/models/analyze/analyze_history.dart';
 import 'package:app/views/common/text_widgets.dart';
 import 'package:get/get.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class AnalysisHistoryView extends StatelessWidget {
   const AnalysisHistoryView({Key? key}) : super(key: key);
@@ -20,11 +21,10 @@ class AnalysisHistoryView extends StatelessWidget {
           _.controller?.getAnalyzeHistory();
         },
         builder: (_) {
-          final analyzeHistoryList = _.analyzeHistoryResponse;
+          final analyzeHistoryList = _.analyzeHistoryResponse.reversed.toList();
 
           if (analyzeHistoryList.isNotEmpty) {
             return ListView.builder(
-              reverse: true,
               itemCount: analyzeHistoryList.length,
               itemBuilder: (context, index) {
                 return _buildAnalysisCard(context, analyzeHistoryList[index]);
@@ -60,7 +60,7 @@ class AnalysisHistoryView extends StatelessWidget {
               const SizedBox(height: 4.0),
               Text("Additional Feedback: ${analysisData.additionalFeedback}"),
               const SizedBox(height: 4.0),
-              Text("Date: ${analysisData.createdAt}"),
+              Text("Date: ${timeago.format(analysisData.createdAt!)}"),
             ],
           ),
           onTap: () {

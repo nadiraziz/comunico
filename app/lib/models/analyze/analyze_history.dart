@@ -19,6 +19,7 @@ class AnalyzeHistoryResponse {
   String? feedback;
   String? additionalFeedback;
   DateTime? createdAt;
+  int? performanceScore;
 
   AnalyzeHistoryResponse({
     this.id,
@@ -28,6 +29,7 @@ class AnalyzeHistoryResponse {
     this.feedback,
     this.additionalFeedback,
     this.createdAt,
+    this.performanceScore,
   });
 
   factory AnalyzeHistoryResponse.fromJson(Map<String, dynamic> json) =>
@@ -37,6 +39,7 @@ class AnalyzeHistoryResponse {
         voiceEmotion: json["voice_emotion"],
         faceEmotion: json["face_emotion"],
         feedback: json["feedback"],
+        performanceScore: json['performance_score'],
         additionalFeedback: json["additional_feedback"],
         createdAt: json["created_at"] == null
             ? null
@@ -49,6 +52,7 @@ class AnalyzeHistoryResponse {
         "voice_emotion": voiceEmotion,
         "face_emotion": faceEmotion,
         "feedback": feedback,
+        "performance_score": performanceScore,
         "additional_feedback": additionalFeedback,
         "created_at": createdAt?.toIso8601String(),
       };

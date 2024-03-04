@@ -17,19 +17,20 @@ class ScanResultResponse {
   String? faceEmotion;
   String? feedback;
   String? additionalFeedback;
+  int? performanceScore;
   DateTime? createdAt;
   int? user;
 
-  ScanResultResponse({
-    this.id,
-    this.video,
-    this.voiceEmotion,
-    this.faceEmotion,
-    this.feedback,
-    this.additionalFeedback,
-    this.createdAt,
-    this.user,
-  });
+  ScanResultResponse(
+      {this.id,
+      this.video,
+      this.voiceEmotion,
+      this.faceEmotion,
+      this.feedback,
+      this.additionalFeedback,
+      this.createdAt,
+      this.user,
+      this.performanceScore});
 
   factory ScanResultResponse.fromJson(Map<String, dynamic> json) {
     return ScanResultResponse(
@@ -38,6 +39,7 @@ class ScanResultResponse {
       voiceEmotion: json["voice_emotion"],
       faceEmotion: json["face_emotion"],
       feedback: json["feedback"],
+      performanceScore: json["performance_score"],
       additionalFeedback: json["additional_feedback"],
       createdAt: json["created_at"] == null
           ? null
@@ -52,6 +54,7 @@ class ScanResultResponse {
         "voice_emotion": voiceEmotion,
         "face_emotion": faceEmotion,
         "feedback": feedback,
+        "performance_score": performanceScore,
         "additional_feedback": additionalFeedback,
         "created_at": createdAt?.toIso8601String(),
         "user": user,
