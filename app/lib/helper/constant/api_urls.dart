@@ -10,4 +10,5 @@ class APIUrl {
   static String scanVideo = '/app/videos/';
   static String videoTips = '/app/videotips/';
   static String refreshToken = '/users/token/refresh/';
+  static String feedback = '/feedback/create/';
 }

@@ -10,6 +10,7 @@ import 'package:app/helper/utils/edgeinsert.dart';
 import 'package:app/helper/utils/sizedbox.dart';
 import 'package:app/helper/utils/textstyle.dart';
 import 'package:app/views/common/image_widgets.dart';
+import 'package:app/views/common/loading_widgets.dart';
 import 'package:app/views/common/text_widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,55 +42,64 @@ class HomeView extends StatelessWidget {
   }
 
   Widget carouselVideoTips(context) {
-    return GetX<HomeController>(
-      init: HomeController(),
-      initState: (_) {
-        _.controller?.getImproveTipsAndTricks();
-      },
-      builder: (controller) {
-        if (controller.videoTipsList.isNotEmpty) {
-          return CarouselSlider(
-            options: CarouselOptions(
-              height: 200.0,
-              viewportFraction:
-                  controller.videoTipsList.length == 1 ? 0.95 : 0.8,
-              enableInfiniteScroll:
-                  controller.videoTipsList.length == 1 ? false : true,
-              reverse: controller.videoTipsList.length == 1 ? false : true,
-              autoPlay: controller.videoTipsList.length == 1 ? false : true,
-              autoPlayInterval: const Duration(seconds: 3),
-              autoPlayAnimationDuration: const Duration(milliseconds: 800),
-              autoPlayCurve: Curves.fastOutSlowIn,
-              enlargeCenterPage:
-                  controller.videoTipsList.length == 1 ? false : true,
-              enlargeFactor: 0.3,
-            ),
-            items: controller.videoTipsList.value.map((i) {
-              final videoId =
-                  YoutubeService().convertUrlToId(i.videoLink ?? "") ?? "";
+    return SizedBox(
+      height: 200.h,
+      width: double.infinity,
+      child: GetX<HomeController>(
+        init: HomeController(),
+        initState: (_) {
+          _.controller?.getImproveTipsAndTricks();
+        },
+        builder: (controller) {
+          if (controller.videoTipsList.isNotEmpty) {
+            var videoTipsList = controller.videoTipsList.value;
+            if (videoTipsList.length >= 5) {
+              videoTipsList = videoTipsList.sublist(0, 5);
+            }
+            return CarouselSlider(
+              options: CarouselOptions(
+                height: 200.h,
+                viewportFraction: videoTipsList.length == 1 ? 0.95 : 0.8,
+                enableInfiniteScroll: videoTipsList.length == 1 ? false : true,
+                reverse: videoTipsList.length == 1 ? false : true,
+                autoPlay: videoTipsList.length == 1 ? false : true,
+                autoPlayInterval: const Duration(seconds: 3),
+                autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                enlargeCenterPage: videoTipsList.length == 1 ? false : true,
+                enlargeFactor: 0.3,
+              ),
+              items: videoTipsList.map((i) {
+                final videoId =
+                    YoutubeService().convertUrlToId(i.videoLink ?? "") ?? "";
 
-              return GestureDetector(
-                onTap: () async {
-                  await YoutubeService().videolaunchUrl(url: i.videoLink ?? "");
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  alignment: Alignment.center,
-                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  decoration: BoxDecoration(
-                    color: KColors.primaryColor,
-                    borderRadius: KBorderRadius.kAllLR(radius: 10.r),
+                return GestureDetector(
+                  onTap: () async {
+                    await YoutubeService()
+                        .videolaunchUrl(url: i.videoLink ?? "");
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                    decoration: BoxDecoration(
+                      color: KColors.primaryColor,
+                      borderRadius: KBorderRadius.kAllLR(radius: 10.r),
+                    ),
+                    child: KImage().fromNetwork(
+                      imagePath: YoutubeThumbnail(youtubeId: videoId).mq(),
+                    ),
                   ),
-                  child: KImage().fromNetwork(
-                    imagePath: YoutubeThumbnail(youtubeId: videoId).mq(),
-                  ),
-                ),
-              );
-            }).toList(),
-          );
-        }
-        return const SizedBox();
-      },
+                );
+              }).toList(),
+            );
+          } else if (controller.isLoading.value == true) {
+            return Center(
+                child: kLoadingCircularWidget(color: KColors.primaryColor));
+          }
+          return const SizedBox();
+        },
+      ),
     );
   }
 
@@ -167,7 +177,9 @@ class HomeView extends StatelessWidget {
               Icon(
                 icon,
                 color: KColors.secondaryColor,
+                size: 25.h,
               ),
+              KSizedBox.h10,
               KText.customText(
                 text: title,
                 textStyle: KTextStyle.style16.copyWith(

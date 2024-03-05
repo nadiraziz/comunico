@@ -16,6 +16,7 @@ Widget kTextFormField({
   bool? isPassword,
   String? Function(String?)? validator,
   bool? isDisable,
+  int? maxLines,
 }) {
   return Padding(
       padding: KEdgeInset.kV5,
@@ -26,6 +27,7 @@ Widget kTextFormField({
         validator: validator,
         initialValue: isDisable == true ? hintText : null,
         style: KTextStyle.style14.copyWith(color: Colors.black),
+        maxLines: maxLines ?? 1,
         decoration: InputDecoration(
           contentPadding: KEdgeInset.kVH10,
           prefixIcon: prefixIcon,

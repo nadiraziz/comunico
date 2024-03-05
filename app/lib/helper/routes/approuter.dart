@@ -2,6 +2,7 @@ import 'package:app/views/analyzehistory/analyzehistory_view.dart';
 import 'package:app/views/auth/signin/signin_view.dart';
 import 'package:app/views/auth/signup/signup_view.dart';
 import 'package:app/views/chart/chart_view.dart';
+import 'package:app/views/feedback/feedback_view.dart';
 import 'package:app/views/home/home_view.dart';
 import 'package:app/views/profile/profile_view.dart';
 import 'package:app/views/scanvideo/scanvideo_view.dart';
@@ -24,6 +25,7 @@ class AppRouter {
     GetPage(name: '/video-failure', page: () => const FailureResultView()),
     GetPage(name: '/analytics-chart', page: () => AnalyticsChartView()),
     GetPage(name: '/video-tips', page: () => const VideotipsView()),
+    GetPage(name: '/feedback', page: () => FeedbackView()),
   ];
 
   static void goToSplash() {
@@ -68,5 +70,9 @@ class AppRouter {
 
   static void goToVideoTips() {
     Get.toNamed('/video-tips');
+  }
+
+  static void goToFeedback() {
+    Get.toNamed('/feedback');
   }
 }

@@ -4,6 +4,7 @@ import 'package:app/controller/profile/profile_controller.dart';
 import 'package:app/controller/sharedpreference/sharedpreference_controller.dart';
 import 'package:app/helper/constant/colors.dart';
 import 'package:app/helper/extensions/datetime.dart';
+import 'package:app/helper/routes/approuter.dart';
 import 'package:app/helper/utils/borderradius.dart';
 import 'package:app/helper/utils/edgeinsert.dart';
 import 'package:app/helper/utils/sizedbox.dart';
@@ -63,6 +64,16 @@ class ProfileView extends StatelessWidget {
                   buttonFunc: () async {
                     await SharedPreferenceController().logOut();
                   },
+                ),
+                const Spacer(),
+                Center(
+                  child: KButton().textButton(
+                    buttonTextWidget:
+                        KText.head5Text(text: "Give your Feedback"),
+                    buttonFunc: () {
+                      AppRouter.goToFeedback();
+                    },
+                  ),
                 )
               ],
             );
@@ -100,17 +111,18 @@ class ProfileView extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: KColors.primaryColor,
-            borderRadius: KBorderRadius.kAllLR(radius: 20.r),
-          ),
-          child: Center(
-            child: IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              icon: Icon(
+        InkWell(
+          onTap: () {
+            Get.back();
+          },
+          child: Container(
+            padding: KEdgeInset.kVH5,
+            decoration: BoxDecoration(
+              color: KColors.primaryColor,
+              borderRadius: KBorderRadius.kAllLR(radius: 20.r),
+            ),
+            child: Center(
+              child: Icon(
                 CupertinoIcons.chevron_back,
                 color: Colors.white,
                 size: 25.sp,
