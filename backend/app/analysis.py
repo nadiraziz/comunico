@@ -8,6 +8,7 @@ import librosa
 import joblib
 from statistics import mode
 import matplotlib.pyplot as plt
+from .emotionscore import calculate_performance_score
 
 
 # Path
@@ -141,6 +142,9 @@ def analyze_communication(video_path):
 
     average_face_emotion = mode(all_face_emotions)
 
+    performance_score = calculate_performance_score(
+        voice_emotion, average_face_emotion,)
+
     # Generate personalized feedback based on detected emotions
     voice_feedback = voice_feedback_dict.get(voice_emotion, "")
 
@@ -157,6 +161,7 @@ def analyze_communication(video_path):
         'voice_emotion': voice_emotion,
         'face_emotion': average_face_emotion,
         'feedback': overall_feedback,
+        'performance_score': performance_score,
         'additional_feedback': additional_suggestion
     }
 

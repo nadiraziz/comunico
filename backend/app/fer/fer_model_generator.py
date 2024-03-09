@@ -1,14 +1,15 @@
+import matplotlib.pyplot as plt
+import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Dense, Conv2D, MaxPooling2D, BatchNormalization, Dropout, Flatten
 from keras.optimizers import Adamax
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau
+import os
 
-import tensorflow as tf
-
-import matplotlib.pyplot as plt
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 
-train_dir = 'trained'
+train_dir = '/Users/nadirazeez/Documents/comunico/backend/app/fer/dataset/trained'
 
 training = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1/255.0,
                                                            rotation_range=7,

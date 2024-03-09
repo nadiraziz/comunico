@@ -14,6 +14,7 @@ class FeedbackViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
+
         user = request.data.copy()  # Create a mutable copy of request.data
         user['user'] = request.user.id  # Add user to the mutable data
 

@@ -10,6 +10,8 @@ class UserVideo(models.Model):
     voice_emotion = models.CharField(null=True, blank=True, max_length=500)
     face_emotion = models.CharField(null=True, blank=True, max_length=500)
     feedback = models.CharField(null=True, blank=True, max_length=500)
+    performance_score = models.IntegerField(null=True, blank=True)  # New field
+
     additional_feedback = models.CharField(
         null=True, blank=True, max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)

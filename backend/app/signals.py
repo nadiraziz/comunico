@@ -12,5 +12,6 @@ def analyze_video_on_create(sender, instance, created, **kwargs):
         instance.voice_emotion = analysis_results['voice_emotion']
         instance.face_emotion = analysis_results['face_emotion']
         instance.feedback = analysis_results['feedback']
+        instance.performance_score = analysis_results['performance_score']
         instance.additional_feedback = analysis_results['additional_feedback']
         instance.save()

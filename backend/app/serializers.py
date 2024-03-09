@@ -15,7 +15,7 @@ class AnalysisHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserVideo
         fields = ['id', 'video', 'voice_emotion',
-                  'face_emotion', 'feedback', 'additional_feedback', 'created_at',]
+                  'face_emotion', 'feedback', 'additional_feedback', 'created_at', 'performance_score']
 
 
 class VideoTipsSerializer(serializers.ModelSerializer):
